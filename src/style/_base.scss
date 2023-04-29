@@ -6,6 +6,7 @@ html {
 
 body {
   font-size: 1.6rem;
+  background: $gradient-background;
 }
 
 ul li {
@@ -17,10 +18,14 @@ img {
   vertical-align: top;
 }
 
-.wrapper{
+.wrapper {
+  height: 100%;
   max-width: 800px;
   margin: 0 auto;
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  
 }
 
 .visually-hidden {
