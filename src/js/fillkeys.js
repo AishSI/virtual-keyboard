@@ -18,7 +18,7 @@ const createKeyboardTemplate = () => {
 const KEYBOARD = {
   fillKeysKeyboard() {
     const board = document.querySelector('.keyboard');
-    const keys = KEYS[2];
+    const keys = KEYS[6];
     keys.forEach((element, index) => {
       const key = document.createElement('button');
       key.classList.add('keyboard__key');
@@ -34,6 +34,9 @@ const KEYBOARD = {
           break;
         case 56:
           key.innerHTML = 'Win';
+          break;
+        case 59:
+          key.innerHTML = 'Alt';
           break;
         case 60:
           key.innerHTML = '&#9668;';
