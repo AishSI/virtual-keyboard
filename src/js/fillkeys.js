@@ -20,42 +20,20 @@ const KEYBOARD = {
     const board = document.querySelector('.keyboard');
     const keys = KEYS[2];
     keys.forEach((element, index) => {
-      const key = document.createElement('div');
+      const key = document.createElement('button');
       key.classList.add('keyboard__key');
-      key.innerText = `${element}`;
       switch (index) {
-        case 13:
-          key.classList.add('key-backspace');
-          break;
-        case 14:
-          key.classList.add('key-tab');
-          break;
         case 28:
           key.innerHTML = 'Del';
           break;
-        case 29:
-          key.classList.add('key-caps');
-          break;
-        case 41:
-          key.classList.add('key-enter');
-          break;
-        case 42:
-          key.classList.add('key-shift_left');
-          break;
         case 53:
           key.innerHTML = '&#9650;';
-          break;
-        case 54:
-          key.classList.add('key-shift_right');
           break;
         case 55:
           key.innerHTML = 'Ctrl';
           break;
         case 56:
           key.innerHTML = 'Win';
-          break;
-        case 58:
-          key.classList.add('key-space');
           break;
         case 60:
           key.innerHTML = '&#9668;';

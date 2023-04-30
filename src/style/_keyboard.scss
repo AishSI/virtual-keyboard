@@ -17,7 +17,7 @@
   font-family: monospace, "Roboto Mono";
   font-size: 2rem;
   font-weight: 600;
-  
+
   &:focus-visible {
     border: 1px solid $color-textarea;
     outline: 2px solid $color-dark-3xl;
@@ -46,7 +46,7 @@
   box-shadow: 2px 2px 3px $color-dark-l;
   border-radius: 0.5rem;
   font-family: Arial, "Roboto Mono", Helvetica, sans-serif;
-  cursor: pointer;  
+  cursor: pointer;
   transition: color 0.3s, text-shadow 0.3s, box-shadow 0.3s;
 
   @media (hover: hover) {
@@ -79,30 +79,32 @@
   box-shadow: 0px 0px 10px $color-primary-light;
 }
 
-.key-backspace {
-  grid-area: key13;
-}
+.keyboard__key {
+  &:nth-child(14) {
+    grid-area: key13;
+  }
 
-.key-tab {
-  grid-area: key15;
-}
+  &:nth-child(15) {
+    grid-area: key15;
+  }
 
-.key-caps {
-  grid-area: key30;
-}
+  &:nth-child(30) {
+    grid-area: key30;
+  }
 
-.key-enter {
-  grid-area: key42;
-}
+  &:nth-child(42) {
+    grid-area: key42;
+  }
 
-.key-shift_left {
-  grid-area: key43;
-}
+  &:nth-child(43) {
+    grid-area: key43;
+  }
 
-.key-shift_right {
-  grid-area: key55;
-}
+  &:nth-child(55) {
+    grid-area: key55;
+  }
 
-.key-space {
-  grid-area: key59;
+  &:nth-child(59) {
+    grid-area: key59;
+  }
 }
