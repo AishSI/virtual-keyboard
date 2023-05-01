@@ -11,20 +11,21 @@ const KEYBOARD = {
   shiftRightActive: false,
   textScreen: '',
   keyboard: '',
+  noTextKey: [],
 
   createKeyboardTemplate() {
     const boardKeys = document.createElement('div');
     boardKeys.classList.add('wrapper');
     boardKeys.innerHTML = `
     <h1 class="title">RSS Виртуальная клавиатура</h1>
-    <textarea class="textarea" id="textarea"></textarea>    
+    <textarea class="textarea" id="textScreen"></textarea>    
     <div class="grid-container keyboard"></div>    
     <p class="description">Клавиатура создана в операционной системе Windows</p>
     <p class="description">Переключение языка: левые Ctrl + Alt</p>
     `;
     BODY.append(boardKeys);
-    this.textScreen = document.querySelector('#textarea');
     this.keyboard = document.querySelector('.keyboard');
+    this.textScreen = document.querySelector('#textScreen');
   },
 
   fillKeysKeyboard() {
@@ -33,6 +34,7 @@ const KEYBOARD = {
     board.innerHTML = '';
     const keys = KEYS[this.layoutKeys];
     this.keyCode = [...KEYS[8]];
+    this.noTextKey = [...KEYS[10]];
     keys.forEach((element, index) => {
       const key = document.createElement('button');
       key.classList.add('keyboard__key');
@@ -106,7 +108,6 @@ const KEYBOARD = {
   },
 
   mouseKeyboard() {
-    // Отслеживаем Shift на мышке
     this.keyboard.addEventListener('mousedown', (event) => {
       if (event.target.classList.contains('ShiftLeft')) {
         this.shiftLeftActive = true;
@@ -119,6 +120,28 @@ const KEYBOARD = {
       }
       if (event.target.innerText === 'CapsLock' || event.target.innerText === 'Shift') {
         this.updateKeysKeyboard();
+      }
+
+      if (event.target.closest('.keyboard__key')) {
+        switch (event.target.classList[1]) {
+          // case 'Backspace':
+          //   textScreen.value += '';
+          //   break;
+          case 'Tab':
+            this.textScreen.value += '    ';
+            break;
+            // case 'Delete':
+            //   textScreen.value += '';
+            //   break;
+
+          case 'Enter':
+            this.textScreen.value += '\r\n';
+            break;
+          default:
+            if (!this.noTextKey.includes(event.target.classList[1])) {
+              this.textScreen.value += event.target.innerHTML;
+            }
+        }
       }
     });
 

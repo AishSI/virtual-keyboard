@@ -69,6 +69,13 @@ const KEYS = [
     30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
     43, 44, 45, 46, 47, 48, 49, 50, 51, 52,
   ],
+  [
+    'Backspace',
+    'Tab', 'Delete',
+    'CapsLock', 'Enter',
+    'ShiftLeft', 'ShiftRight',
+    'ControlLeft', 'MetaLeft', 'AltLeft', 'AltRight', 'ControlRight',
+  ],
 ];
 
 export default KEYS;
