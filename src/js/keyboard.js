@@ -138,9 +138,8 @@ const KEYBOARD = {
     const start = this.textScreen.selectionStart;
     const end = this.textScreen.selectionEnd;
     this.textScreen.value = currStr.slice(0, start) + str + currStr.slice(end);
-    const insCount = this.textScreen.value.length - currStr.length;
-    this.textScreen.selectionStart = start + insCount;
-    this.textScreen.selectionEnd = start + insCount;
+    this.textScreen.selectionStart = start + str.length;
+    this.textScreen.selectionEnd = start + str.length;
   },
 
   mouseKeyboard() {
@@ -173,7 +172,7 @@ const KEYBOARD = {
             this.delSelection('Delete');
             break;
           case 'Enter':
-            this.insertLetter('\r\n');
+            this.insertLetter('\n');
             break;
           case 'Space':
             this.insertLetter(' ');
@@ -230,7 +229,7 @@ const KEYBOARD = {
             break;
 
           case 'Enter':
-            this.insertLetter('\r\n');
+            this.insertLetter('\n');
             break;
           case 'Space':
             this.insertLetter(' ');
