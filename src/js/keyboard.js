@@ -112,6 +112,9 @@ const KEYBOARD = {
 
   mouseKeyboard() {
     this.keyboard.addEventListener('mousedown', (event) => {
+      event.preventDefault();
+      document.querySelector('#textScreen').focus();
+
       if (event.target.classList.contains('ShiftLeft')) {
         this.shiftLeftActive = true;
       }
@@ -151,6 +154,7 @@ const KEYBOARD = {
     });
 
     this.keyboard.addEventListener('mouseup', (event) => {
+      document.querySelector('#textScreen').focus();
       if (event.target.classList.contains('ShiftLeft')) {
         this.shiftLeftActive = false;
         this.updateKeysKeyboard();
@@ -165,6 +169,7 @@ const KEYBOARD = {
   physicalKeys() {
     document.addEventListener('keydown', (event) => {
       event.preventDefault();
+      document.querySelector('#textScreen').focus();
       if (this.keyCode.includes(event.code)) {
         if (event.code === 'CapsLock') {
           this.caps = !this.caps;
