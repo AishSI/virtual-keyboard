@@ -15,8 +15,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _keys__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./keys */ "./src/js/keys.js");
 
 const BODY = document.body;
-// const textTextarea = '';
-
 const KEYBOARD = {
   keyCode: [],
   layoutKeys: 0,
@@ -96,6 +94,22 @@ const KEYBOARD = {
       board.append(key);
     });
   },
+  updateKeysKeyboard() {
+    this.layoutKeys = parseInt(`${Number(this.language)}${Number(this.caps)}${Number(this.shiftLeftActive || this.shiftRightActive)}`, 2);
+    const keys = _keys__WEBPACK_IMPORTED_MODULE_0__["default"][this.layoutKeys];
+    const keysUpdate = document.querySelectorAll('.keyboard__key');
+    const keysUpdateIndex = [..._keys__WEBPACK_IMPORTED_MODULE_0__["default"][9]];
+    keysUpdateIndex.forEach(item => {
+      keysUpdate[item].innerHTML = '';
+      keysUpdate[item].innerHTML = `${keys[item]}`;
+    });
+    if (this.caps) keysUpdate[29].classList.add('active');
+    if (!this.caps) keysUpdate[29].classList.remove('active');
+    if (this.shiftLeftActive) keysUpdate[42].classList.add('active');
+    if (!this.shiftLeftActive) keysUpdate[42].classList.remove('active');
+    if (this.shiftRightActive) keysUpdate[54].classList.add('active');
+    if (!this.shiftRightActive) keysUpdate[54].classList.remove('active');
+  },
   mouseKeyboard() {
     // Отслеживаем Shift на мышке
     this.keyboard.addEventListener('mousedown', event => {
@@ -109,17 +123,17 @@ const KEYBOARD = {
         this.caps = !this.caps;
       }
       if (event.target.innerText === 'CapsLock' || event.target.innerText === 'Shift') {
-        KEYBOARD.fillKeysKeyboard();
+        this.updateKeysKeyboard();
       }
     });
     this.keyboard.addEventListener('mouseup', event => {
       if (event.target.classList.contains('ShiftLeft')) {
         this.shiftLeftActive = false;
-        KEYBOARD.fillKeysKeyboard();
+        this.updateKeysKeyboard();
       }
       if (event.target.classList.contains('ShiftRight')) {
         this.shiftRightActive = false;
-        KEYBOARD.fillKeysKeyboard();
+        this.updateKeysKeyboard();
       }
     });
   },
@@ -129,7 +143,7 @@ const KEYBOARD = {
       if (this.keyCode.includes(event.code)) {
         if (event.code === 'CapsLock') {
           this.caps = !this.caps;
-          KEYBOARD.fillKeysKeyboard();
+          this.updateKeysKeyboard();
         } else if (event.key === 'Shift') {
           if (event.code === 'ShiftLeft') {
             this.shiftLeftActive = true;
@@ -137,7 +151,7 @@ const KEYBOARD = {
           if (event.code === 'ShiftRight') {
             this.shiftRightActive = true;
           }
-          KEYBOARD.fillKeysKeyboard();
+          this.updateKeysKeyboard();
         } else {
           document.querySelector(`.${event.code}`).classList.add('active');
         }
@@ -149,7 +163,7 @@ const KEYBOARD = {
         if (event.key === 'Shift') {
           this.shiftLeftActive = false;
           this.shiftRightActive = false;
-          KEYBOARD.fillKeysKeyboard();
+          this.updateKeysKeyboard();
         }
         if (event.code !== 'CapsLock') {
           document.querySelector(`.${event.code}`).classList.remove('active');
@@ -166,7 +180,7 @@ const KEYBOARD = {
       if (combination.every(key => pressed.has(key))) {
         pressed.clear();
         this.language = !this.language;
-        this.fillKeysKeyboard();
+        this.updateKeysKeyboard();
       }
     });
     document.addEventListener('keyup', event => {
@@ -204,7 +218,7 @@ const KEYS = [[
 // EN - yes Caps, no Shcift: 110 => 6
 '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace', 'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\', 'Delete', 'CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", 'Enter', 'Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'ArrowUp', 'Shift', 'Control', 'Meta', 'Alt', ' ', 'Alt', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Control'], [
 // EN - yes Caps, yes Shcift: 111 => 7
-'~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace', 'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '{', '}', '|', 'Delete', 'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ':', '"', 'Enter', 'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<', '>', '?', 'ArrowUp', 'Shift', 'Control', 'Meta', 'Alt', ' ', 'Alt', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Control'], ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete', 'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight']];
+'~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace', 'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '{', '}', '|', 'Delete', 'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ':', '"', 'Enter', 'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<', '>', '?', 'ArrowUp', 'Shift', 'Control', 'Meta', 'Alt', ' ', 'Alt', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Control'], ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete', 'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52]];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (KEYS);
 
 /***/ }),
@@ -1002,4 +1016,4 @@ _js_keyboard__WEBPACK_IMPORTED_MODULE_3__["default"].runShortcut();
 
 /******/ })()
 ;
-//# sourceMappingURL=index.f5940120dc50a1161d27.js.map
+//# sourceMappingURL=index.6cb5acc33f94bac0d0ac.js.map
