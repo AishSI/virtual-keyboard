@@ -110,10 +110,33 @@ const KEYBOARD = {
     if (!this.shiftRightActive) keysUpdate[54].classList.remove('active');
   },
 
+  delSelection(direct) {
+    const currStr = this.textScreen.value;
+    const start = this.textScreen.selectionStart;
+    const end = this.textScreen.selectionEnd;
+
+    if (start !== end) {
+      this.textScreen.value = currStr.slice(0, start) + currStr.slice(end);
+      this.textScreen.selectionStart = start;
+      this.textScreen.selectionEnd = start;
+    } else {
+      if ((direct === 'Backspace') && (start > 0)) {
+        this.textScreen.value = currStr.slice(0, start - 1) + currStr.slice(end);
+        this.textScreen.selectionStart = start - 1;
+        this.textScreen.selectionEnd = start - 1;
+      }
+      if ((direct === 'Delete') && (start < currStr.length)) {
+        this.textScreen.value = currStr.slice(0, start) + currStr.slice(end + 1);
+        this.textScreen.selectionStart = start;
+        this.textScreen.selectionEnd = start;
+      }
+    }
+  },
+
   mouseKeyboard() {
     this.keyboard.addEventListener('mousedown', (event) => {
       event.preventDefault();
-      document.querySelector('#textScreen').focus();
+      this.textScreen.focus();
 
       if (event.target.classList.contains('ShiftLeft')) {
         this.shiftLeftActive = true;
@@ -130,15 +153,15 @@ const KEYBOARD = {
 
       if (event.target.closest('.keyboard__key')) {
         switch (event.target.classList[1]) {
-          // case 'Backspace':
-          //   textScreen.value += '';
-          //   break;
+          case 'Backspace':
+            this.delSelection('Backspace');
+            break;
           case 'Tab':
             this.textScreen.value += '    ';
             break;
-          // case 'Delete':
-          //   textScreen.value += '';
-          //   break;
+          case 'Delete':
+            this.delSelection('Delete');
+            break;
           case 'Enter':
             this.textScreen.value += '\r\n';
             break;
@@ -154,7 +177,6 @@ const KEYBOARD = {
     });
 
     this.keyboard.addEventListener('mouseup', (event) => {
-      document.querySelector('#textScreen').focus();
       if (event.target.classList.contains('ShiftLeft')) {
         this.shiftLeftActive = false;
         this.updateKeysKeyboard();
@@ -169,7 +191,7 @@ const KEYBOARD = {
   physicalKeys() {
     document.addEventListener('keydown', (event) => {
       event.preventDefault();
-      document.querySelector('#textScreen').focus();
+      this.textScreen.focus();
       if (this.keyCode.includes(event.code)) {
         if (event.code === 'CapsLock') {
           this.caps = !this.caps;
@@ -187,9 +209,16 @@ const KEYBOARD = {
         }
 
         switch (event.code) {
+          case 'Backspace':
+            this.delSelection('Backspace');
+            break;
           case 'Tab':
             this.textScreen.value += '    ';
             break;
+          case 'Delete':
+            this.delSelection('Delete');
+            break;
+
           case 'Enter':
             this.textScreen.value += '\r\n';
             break;
