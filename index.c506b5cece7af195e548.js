@@ -24,19 +24,20 @@ const KEYBOARD = {
   shiftRightActive: false,
   textScreen: '',
   keyboard: '',
+  noTextKey: [],
   createKeyboardTemplate() {
     const boardKeys = document.createElement('div');
     boardKeys.classList.add('wrapper');
     boardKeys.innerHTML = `
     <h1 class="title">RSS Виртуальная клавиатура</h1>
-    <textarea class="textarea" id="textarea"></textarea>    
+    <textarea class="textarea" id="textScreen"></textarea>    
     <div class="grid-container keyboard"></div>    
     <p class="description">Клавиатура создана в операционной системе Windows</p>
     <p class="description">Переключение языка: левые Ctrl + Alt</p>
     `;
     BODY.append(boardKeys);
-    this.textScreen = document.querySelector('#textarea');
     this.keyboard = document.querySelector('.keyboard');
+    this.textScreen = document.querySelector('#textScreen');
   },
   fillKeysKeyboard() {
     this.layoutKeys = parseInt(`${Number(this.language)}${Number(this.caps)}${Number(this.shiftLeftActive || this.shiftRightActive)}`, 2);
@@ -44,6 +45,7 @@ const KEYBOARD = {
     board.innerHTML = '';
     const keys = _keys__WEBPACK_IMPORTED_MODULE_0__["default"][this.layoutKeys];
     this.keyCode = [..._keys__WEBPACK_IMPORTED_MODULE_0__["default"][8]];
+    this.noTextKey = [..._keys__WEBPACK_IMPORTED_MODULE_0__["default"][10]];
     keys.forEach((element, index) => {
       const key = document.createElement('button');
       key.classList.add('keyboard__key');
@@ -111,7 +113,6 @@ const KEYBOARD = {
     if (!this.shiftRightActive) keysUpdate[54].classList.remove('active');
   },
   mouseKeyboard() {
-    // Отслеживаем Shift на мышке
     this.keyboard.addEventListener('mousedown', event => {
       if (event.target.classList.contains('ShiftLeft')) {
         this.shiftLeftActive = true;
@@ -124,6 +125,27 @@ const KEYBOARD = {
       }
       if (event.target.innerText === 'CapsLock' || event.target.innerText === 'Shift') {
         this.updateKeysKeyboard();
+      }
+      if (event.target.closest('.keyboard__key')) {
+        switch (event.target.classList[1]) {
+          // case 'Backspace':
+          //   textScreen.value += '';
+          //   break;
+          case 'Tab':
+            this.textScreen.value += '    ';
+            break;
+          // case 'Delete':
+          //   textScreen.value += '';
+          //   break;
+
+          case 'Enter':
+            this.textScreen.value += '\r\n';
+            break;
+          default:
+            if (!this.noTextKey.includes(event.target.classList[1])) {
+              this.textScreen.value += event.target.innerHTML;
+            }
+        }
       }
     });
     this.keyboard.addEventListener('mouseup', event => {
@@ -218,7 +240,7 @@ const KEYS = [[
 // EN - yes Caps, no Shcift: 110 => 6
 '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace', 'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\', 'Delete', 'CapsLock', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", 'Enter', 'Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', ',', '.', '/', 'ArrowUp', 'Shift', 'Control', 'Meta', 'Alt', ' ', 'Alt', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Control'], [
 // EN - yes Caps, yes Shcift: 111 => 7
-'~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace', 'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '{', '}', '|', 'Delete', 'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ':', '"', 'Enter', 'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<', '>', '?', 'ArrowUp', 'Shift', 'Control', 'Meta', 'Alt', ' ', 'Alt', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Control'], ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete', 'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52]];
+'~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace', 'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '{', '}', '|', 'Delete', 'CapsLock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ':', '"', 'Enter', 'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<', '>', '?', 'ArrowUp', 'Shift', 'Control', 'Meta', 'Alt', ' ', 'Alt', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Control'], ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace', 'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete', 'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter', 'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'], [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52], ['Backspace', 'Tab', 'Delete', 'CapsLock', 'Enter', 'ShiftLeft', 'ShiftRight', 'ControlLeft', 'MetaLeft', 'AltLeft', 'AltRight', 'ControlRight']];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (KEYS);
 
 /***/ }),
@@ -1016,4 +1038,4 @@ _js_keyboard__WEBPACK_IMPORTED_MODULE_3__["default"].runShortcut();
 
 /******/ })()
 ;
-//# sourceMappingURL=index.6cb5acc33f94bac0d0ac.js.map
+//# sourceMappingURL=index.c506b5cece7af195e548.js.map
