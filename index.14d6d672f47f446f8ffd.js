@@ -117,6 +117,8 @@ const KEYBOARD = {
   },
   mouseKeyboard() {
     this.keyboard.addEventListener('mousedown', event => {
+      event.preventDefault();
+      document.querySelector('#textScreen').focus();
       if (event.target.classList.contains('ShiftLeft')) {
         this.shiftLeftActive = true;
       }
@@ -154,6 +156,7 @@ const KEYBOARD = {
       }
     });
     this.keyboard.addEventListener('mouseup', event => {
+      document.querySelector('#textScreen').focus();
       if (event.target.classList.contains('ShiftLeft')) {
         this.shiftLeftActive = false;
         this.updateKeysKeyboard();
@@ -167,6 +170,7 @@ const KEYBOARD = {
   physicalKeys() {
     document.addEventListener('keydown', event => {
       event.preventDefault();
+      document.querySelector('#textScreen').focus();
       if (this.keyCode.includes(event.code)) {
         if (event.code === 'CapsLock') {
           this.caps = !this.caps;
@@ -1060,4 +1064,4 @@ _js_keyboard__WEBPACK_IMPORTED_MODULE_3__["default"].runShortcut();
 
 /******/ })()
 ;
-//# sourceMappingURL=index.094f08e40dfef3a10eb5.js.map
+//# sourceMappingURL=index.14d6d672f47f446f8ffd.js.map
