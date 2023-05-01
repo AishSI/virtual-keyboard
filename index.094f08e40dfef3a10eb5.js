@@ -26,6 +26,9 @@ const KEYBOARD = {
   keyboard: '',
   noTextKey: [],
   createKeyboardTemplate() {
+    if (localStorage.getItem('language')) {
+      this.language = localStorage.getItem('language') === 'true';
+    }
     const boardKeys = document.createElement('div');
     boardKeys.classList.add('wrapper');
     boardKeys.innerHTML = `
@@ -137,9 +140,11 @@ const KEYBOARD = {
           // case 'Delete':
           //   textScreen.value += '';
           //   break;
-
           case 'Enter':
             this.textScreen.value += '\r\n';
+            break;
+          case 'Space':
+            this.textScreen.value += ' ';
             break;
           default:
             if (!this.noTextKey.includes(event.target.classList[1])) {
@@ -177,9 +182,21 @@ const KEYBOARD = {
         } else {
           document.querySelector(`.${event.code}`).classList.add('active');
         }
-        if (!this.noTextKey.includes(event.code)) {
-          const letter = document.querySelector(`.${event.code}`);
-          this.textScreen.value += letter.innerText;
+        switch (event.code) {
+          case 'Tab':
+            this.textScreen.value += '    ';
+            break;
+          case 'Enter':
+            this.textScreen.value += '\r\n';
+            break;
+          case 'Space':
+            this.textScreen.value += ' ';
+            break;
+          default:
+            if (!this.noTextKey.includes(event.code)) {
+              const letter = document.querySelector(`.${event.code}`);
+              this.textScreen.value += letter.innerText;
+            }
         }
       }
     });
@@ -206,6 +223,7 @@ const KEYBOARD = {
       if (combination.every(key => pressed.has(key))) {
         pressed.clear();
         this.language = !this.language;
+        localStorage.setItem('language', this.language);
         this.updateKeysKeyboard();
       }
     });
@@ -1042,4 +1060,4 @@ _js_keyboard__WEBPACK_IMPORTED_MODULE_3__["default"].runShortcut();
 
 /******/ })()
 ;
-//# sourceMappingURL=index.b1113f7c329e07ea28a0.js.map
+//# sourceMappingURL=index.094f08e40dfef3a10eb5.js.map
