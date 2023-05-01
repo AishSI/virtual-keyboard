@@ -137,12 +137,13 @@ const KEYBOARD = {
     }
   },
   insertLetter(str) {
-    let currStr = this.textScreen.value;
-    let start = this.textScreen.selectionStart;
-    let end = this.textScreen.selectionEnd;
+    const currStr = this.textScreen.value;
+    const start = this.textScreen.selectionStart;
+    const end = this.textScreen.selectionEnd;
     this.textScreen.value = currStr.slice(0, start) + str + currStr.slice(end);
-    this.textScreen.selectionStart = start + 1;
-    this.textScreen.selectionEnd = start + 1;
+    const insCount = this.textScreen.value.length - currStr.length;
+    this.textScreen.selectionStart = start + insCount;
+    this.textScreen.selectionEnd = start + insCount;
   },
   mouseKeyboard() {
     this.keyboard.addEventListener('mousedown', event => {
@@ -166,7 +167,7 @@ const KEYBOARD = {
             this.delSelection('Backspace');
             break;
           case 'Tab':
-            this.textScreen.value += '    ';
+            this.insertLetter('    ');
             break;
           case 'Delete':
             this.delSelection('Delete');
@@ -219,7 +220,7 @@ const KEYBOARD = {
             this.delSelection('Backspace');
             break;
           case 'Tab':
-            this.textScreen.value += '    ';
+            this.insertLetter('    ');
             break;
           case 'Delete':
             this.delSelection('Delete');
@@ -1098,4 +1099,4 @@ _js_keyboard__WEBPACK_IMPORTED_MODULE_3__["default"].runShortcut();
 
 /******/ })()
 ;
-//# sourceMappingURL=index.c16063f97ab0cc79ef95.js.map
+//# sourceMappingURL=index.212141eb59d42e2e6f2f.js.map
