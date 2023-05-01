@@ -143,7 +143,7 @@ const KEYBOARD = {
             break;
           default:
             if (!this.noTextKey.includes(event.target.classList[1])) {
-              this.textScreen.value += event.target.innerHTML;
+              this.textScreen.value += event.target.innerText;
             }
         }
       }
@@ -176,6 +176,10 @@ const KEYBOARD = {
           this.updateKeysKeyboard();
         } else {
           document.querySelector(`.${event.code}`).classList.add('active');
+        }
+        if (!this.noTextKey.includes(event.code)) {
+          const letter = document.querySelector(`.${event.code}`);
+          this.textScreen.value += letter.innerText;
         }
       }
     });
@@ -1038,4 +1042,4 @@ _js_keyboard__WEBPACK_IMPORTED_MODULE_3__["default"].runShortcut();
 
 /******/ })()
 ;
-//# sourceMappingURL=index.c506b5cece7af195e548.js.map
+//# sourceMappingURL=index.b1113f7c329e07ea28a0.js.map
