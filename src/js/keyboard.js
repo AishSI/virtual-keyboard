@@ -1,13 +1,14 @@
 import KEYS from './keys';
 
 const BODY = document.body;
-let textTextarea = '';
+const textTextarea = '';
 
 const KEYBOARD = {
   layoutKeys: 0,
   language: 'Ru',
   caps: false,
   shift: false,
+  shiftLeft: false,
   textScreen: '',
   keyboard: '',
 
@@ -44,8 +45,16 @@ const KEYBOARD = {
           if ( this.caps ) key.classList.add( 'active' );
           key.innerHTML = 'CapsLock';
           break;
+        case 42:
+          if ( this.shift && this.shiftLeft ) key.classList.add( 'active' );
+          key.innerHTML = 'Shift';
+          break;
         case 53:
           key.innerHTML = '&#9650;';
+          break;
+        case 54:
+          if ( this.shift && !this.shiftLeft ) key.classList.add( 'active' );
+          key.innerHTML = 'Shift';
           break;
         case 55:
           key.innerHTML = 'Ctrl';
@@ -76,25 +85,32 @@ const KEYBOARD = {
   },
 
   mouseKeyboard() {
-    
     // Отслеживаем Shift на мышке
     this.keyboard.addEventListener( 'mousedown', ( event ) => {
-      if ( event.target.innerText === 'Shift' ) this.shift = true;
-      if ( event.target.innerText === 'CapsLock' ) this.caps = !this.caps;
-      KEYBOARD.fillKeysKeyboard();
+      if ( event.target.innerText === 'Shift' ) {
+        this.shift = true;
+        if ( event.target.value === 'ShiftLeft' ) {
+          this.shiftLeft = true;
+        };
+        KEYBOARD.fillKeysKeyboard();
+      };
+      if ( event.target.innerText === 'CapsLock' ) {
+        this.caps = !this.caps;
+        KEYBOARD.fillKeysKeyboard();
+      };
     } );
 
     this.keyboard.addEventListener( 'mouseup', ( event ) => {
       if ( event.target.innerText === 'Shift' ) {
         this.shift = false;
+        this.shiftLeft = false;
         KEYBOARD.fillKeysKeyboard();
       }
     } );
-
   },
 };
 
 KEYBOARD.createKeyboardTemplate();
-let textArea = document.querySelector( '#textarea' );
+const textArea = document.querySelector( '#textarea' );
 
 export default KEYBOARD;

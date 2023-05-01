@@ -70,6 +70,10 @@
   color: $color-light-l;
   text-shadow: 0px 0px 1px $color-dark, 0 0 1px $color-warning;
   box-shadow: -2px -2px 3px #545454;
+  
+  &:hover{    
+    box-shadow: -2px -2px 3px #545454;
+  }
 }
 
 .grid-container {
