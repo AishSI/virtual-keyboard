@@ -4,6 +4,7 @@ const BODY = document.body;
 // const textTextarea = '';
 
 const KEYBOARD = {
+  keyCode: [],
   layoutKeys: 0,
   language: 'Ru',
   caps: false,
@@ -32,11 +33,11 @@ const KEYBOARD = {
     const board = document.querySelector('.keyboard');
     board.innerHTML = '';
     const keys = KEYS[this.layoutKeys];
-    const code = KEYS[8];
+    this.keyCode = [...KEYS[8]];
     keys.forEach((element, index) => {
       const key = document.createElement('button');
       key.classList.add('keyboard__key');
-      key.classList.add(`${code[index]}`);
+      key.classList.add(`${this.keyCode[index]}`);
       switch (index) {
         case 28:
           key.innerHTML = 'Del';
@@ -111,28 +112,35 @@ const KEYBOARD = {
 
   physicalKeys() {
     document.addEventListener('keydown', (event) => {
-      if (event.code === 'CapsLock') {
-        this.caps = !this.caps;
-        KEYBOARD.fillKeysKeyboard();
-      } else if (event.key === 'Shift') {
-        this.shift = true;
-        if (event.code === 'ShiftLeft') {
-          this.shiftLeft = true;
+      event.preventDefault();
+      if (this.keyCode.includes(event.code)) {
+        if (event.code === 'CapsLock') {
+          this.caps = !this.caps;
+          KEYBOARD.fillKeysKeyboard();
+        } else if (event.key === 'Shift') {
+          this.shift = true;
+          if (event.code === 'ShiftLeft') {
+            this.shiftLeft = true;
+          }
+          KEYBOARD.fillKeysKeyboard();
+          document.querySelector(`.${event.code}`).classList.add('active');
+        } else {
+          document.querySelector(`.${event.code}`).classList.add('active');
         }
-        KEYBOARD.fillKeysKeyboard();
-        document.querySelector(`.${event.code}`).classList.add('active');
-      } else {
-        document.querySelector(`.${event.code}`).classList.add('active');
       }
     });
+
     document.addEventListener('keyup', (event) => {
-      if (event.code !== 'CapsLock') {
-        document.querySelector(`.${event.code}`).classList.remove('active');
-      }
-      if (event.key === 'Shift') {
-        this.shift = false;
-        this.shiftLeft = false;
-        KEYBOARD.fillKeysKeyboard();
+      event.preventDefault();
+      if (this.keyCode.includes(event.code)) {
+        if (event.code !== 'CapsLock') {
+          document.querySelector(`.${event.code}`).classList.remove('active');
+        }
+        if (event.key === 'Shift') {
+          this.shift = false;
+          this.shiftLeft = false;
+          KEYBOARD.fillKeysKeyboard();
+        }
       }
     });
   },
