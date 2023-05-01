@@ -1,7 +1,7 @@
 import './index.html';
 import './index.scss';
 import './js/keys';
-import { createKeyboardTemplate, KEYBOARD } from './js/fillkeys';
+import KEYBOARD from './js/keyboard';
 
-createKeyboardTemplate();
 KEYBOARD.fillKeysKeyboard();
+KEYBOARD.mouseKeyboard();
