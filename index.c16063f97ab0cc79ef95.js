@@ -136,6 +136,14 @@ const KEYBOARD = {
       }
     }
   },
+  insertLetter(str) {
+    let currStr = this.textScreen.value;
+    let start = this.textScreen.selectionStart;
+    let end = this.textScreen.selectionEnd;
+    this.textScreen.value = currStr.slice(0, start) + str + currStr.slice(end);
+    this.textScreen.selectionStart = start + 1;
+    this.textScreen.selectionEnd = start + 1;
+  },
   mouseKeyboard() {
     this.keyboard.addEventListener('mousedown', event => {
       event.preventDefault();
@@ -164,14 +172,14 @@ const KEYBOARD = {
             this.delSelection('Delete');
             break;
           case 'Enter':
-            this.textScreen.value += '\r\n';
+            this.insertLetter('\r\n');
             break;
           case 'Space':
-            this.textScreen.value += ' ';
+            this.insertLetter(' ');
             break;
           default:
             if (!this.noTextKey.includes(event.target.classList[1])) {
-              this.textScreen.value += event.target.innerText;
+              this.insertLetter(event.target.innerText);
             }
         }
       }
@@ -217,15 +225,15 @@ const KEYBOARD = {
             this.delSelection('Delete');
             break;
           case 'Enter':
-            this.textScreen.value += '\r\n';
+            this.insertLetter('\r\n');
             break;
           case 'Space':
-            this.textScreen.value += ' ';
+            this.insertLetter(' ');
             break;
           default:
             if (!this.noTextKey.includes(event.code)) {
               const letter = document.querySelector(`.${event.code}`);
-              this.textScreen.value += letter.innerText;
+              this.insertLetter(letter.innerText);
             }
         }
       }
@@ -1090,4 +1098,4 @@ _js_keyboard__WEBPACK_IMPORTED_MODULE_3__["default"].runShortcut();
 
 /******/ })()
 ;
-//# sourceMappingURL=index.0032585a7d18482762a4.js.map
+//# sourceMappingURL=index.c16063f97ab0cc79ef95.js.map
