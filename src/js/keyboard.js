@@ -6,10 +6,10 @@ const BODY = document.body;
 const KEYBOARD = {
   keyCode: [],
   layoutKeys: 0,
-  language: 'Ru',
+  language: false,
   caps: false,
-  shift: false,
-  shiftLeft: false,
+  shiftLeftActive: false,
+  shiftRightActive: false,
   textScreen: '',
   keyboard: '',
 
@@ -21,7 +21,7 @@ const KEYBOARD = {
     <textarea class="textarea" id="textarea"></textarea>    
     <div class="grid-container keyboard"></div>    
     <p class="description">Клавиатура создана в операционной системе Windows</p>
-    <p class="description">Переключение языка: левые shift + alt</p>
+    <p class="description">Переключение языка: левые Ctrl + Alt</p>
     `;
     BODY.append(boardKeys);
     this.textScreen = document.querySelector('#textarea');
@@ -29,7 +29,7 @@ const KEYBOARD = {
   },
 
   fillKeysKeyboard() {
-    this.layoutKeys = parseInt((`${Number(this.language === 'En')}${Number(this.caps)}${Number(this.shift)}`), 2);
+    this.layoutKeys = parseInt((`${Number(this.language)}${Number(this.caps)}${Number(this.shiftLeftActive || this.shiftRightActive)}`), 2);
     const board = document.querySelector('.keyboard');
     board.innerHTML = '';
     const keys = KEYS[this.layoutKeys];
@@ -47,14 +47,14 @@ const KEYBOARD = {
           key.innerHTML = 'CapsLock';
           break;
         case 42:
-          if (this.shift && this.shiftLeft) key.classList.add('active');
+          if (this.shiftLeftActive) key.classList.add('active');
           key.innerHTML = 'Shift';
           break;
         case 53:
           key.innerHTML = '&#9650;';
           break;
         case 54:
-          if (this.shift && !this.shiftLeft) key.classList.add('active');
+          if (this.shiftRightActive) key.classList.add('active');
           key.innerHTML = 'Shift';
           break;
         case 55:
@@ -88,23 +88,27 @@ const KEYBOARD = {
   mouseKeyboard() {
     // Отслеживаем Shift на мышке
     this.keyboard.addEventListener('mousedown', (event) => {
-      if (event.target.innerText === 'Shift') {
-        this.shift = true;
-        if (event.target.classList.contains('ShiftLeft')) {
-          this.shiftLeft = true;
-        }
-        KEYBOARD.fillKeysKeyboard();
+      if (event.target.classList.contains('ShiftLeft')) {
+        this.shiftLeftActive = true;
+      }
+      if (event.target.classList.contains('ShiftRight')) {
+        this.shiftRightActive = true;
       }
       if (event.target.innerText === 'CapsLock') {
         this.caps = !this.caps;
+      }
+      if (event.target.innerText === 'CapsLock' || event.target.innerText === 'Shift') {
         KEYBOARD.fillKeysKeyboard();
       }
     });
 
     this.keyboard.addEventListener('mouseup', (event) => {
-      if (event.target.innerText === 'Shift') {
-        this.shift = false;
-        this.shiftLeft = false;
+      if (event.target.classList.contains('ShiftLeft')) {
+        this.shiftLeftActive = false;
+        KEYBOARD.fillKeysKeyboard();
+      }
+      if (event.target.classList.contains('ShiftRight')) {
+        this.shiftRightActive = false;
         KEYBOARD.fillKeysKeyboard();
       }
     });
@@ -118,12 +122,13 @@ const KEYBOARD = {
           this.caps = !this.caps;
           KEYBOARD.fillKeysKeyboard();
         } else if (event.key === 'Shift') {
-          this.shift = true;
           if (event.code === 'ShiftLeft') {
-            this.shiftLeft = true;
+            this.shiftLeftActive = true;
+          }
+          if (event.code === 'ShiftRight') {
+            this.shiftRightActive = true;
           }
           KEYBOARD.fillKeysKeyboard();
-          document.querySelector(`.${event.code}`).classList.add('active');
         } else {
           document.querySelector(`.${event.code}`).classList.add('active');
         }
@@ -133,20 +138,36 @@ const KEYBOARD = {
     document.addEventListener('keyup', (event) => {
       event.preventDefault();
       if (this.keyCode.includes(event.code)) {
+        if (event.key === 'Shift') {
+          this.shiftLeftActive = false;
+          this.shiftRightActive = false;
+          KEYBOARD.fillKeysKeyboard();
+        }
         if (event.code !== 'CapsLock') {
           document.querySelector(`.${event.code}`).classList.remove('active');
-        }
-        if (event.key === 'Shift') {
-          this.shift = false;
-          this.shiftLeft = false;
-          KEYBOARD.fillKeysKeyboard();
         }
       }
     });
   },
 
-};
+  runShortcut() {
+    const combination = ['AltLeft', 'ControlLeft'];
+    const pressed = new Set();
 
-KEYBOARD.createKeyboardTemplate();
+    document.addEventListener('keydown', (event) => {
+      event.preventDefault();
+      pressed.add(event.code);
+      if (combination.every((key) => pressed.has(key))) {
+        pressed.clear();
+        this.language = !this.language;
+        this.fillKeysKeyboard();
+      }
+    });
+
+    document.addEventListener('keyup', (event) => {
+      pressed.delete(event.code);
+    });
+  },
+};
 
 export default KEYBOARD;
