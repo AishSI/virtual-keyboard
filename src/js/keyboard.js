@@ -139,7 +139,7 @@ const KEYBOARD = {
             break;
           default:
             if (!this.noTextKey.includes(event.target.classList[1])) {
-              this.textScreen.value += event.target.innerHTML;
+              this.textScreen.value += event.target.innerText;
             }
         }
       }
@@ -174,6 +174,11 @@ const KEYBOARD = {
           this.updateKeysKeyboard();
         } else {
           document.querySelector(`.${event.code}`).classList.add('active');
+        }
+
+        if (!this.noTextKey.includes(event.code)) {
+          const letter = document.querySelector(`.${event.code}`);
+          this.textScreen.value += letter.innerText;
         }
       }
     });
