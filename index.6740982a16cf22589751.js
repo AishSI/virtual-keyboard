@@ -141,9 +141,8 @@ const KEYBOARD = {
     const start = this.textScreen.selectionStart;
     const end = this.textScreen.selectionEnd;
     this.textScreen.value = currStr.slice(0, start) + str + currStr.slice(end);
-    const insCount = this.textScreen.value.length - currStr.length;
-    this.textScreen.selectionStart = start + insCount;
-    this.textScreen.selectionEnd = start + insCount;
+    this.textScreen.selectionStart = start + str.length;
+    this.textScreen.selectionEnd = start + str.length;
   },
   mouseKeyboard() {
     this.keyboard.addEventListener('mousedown', event => {
@@ -173,7 +172,7 @@ const KEYBOARD = {
             this.delSelection('Delete');
             break;
           case 'Enter':
-            this.insertLetter('\r\n');
+            this.insertLetter('\n');
             break;
           case 'Space':
             this.insertLetter(' ');
@@ -226,7 +225,7 @@ const KEYBOARD = {
             this.delSelection('Delete');
             break;
           case 'Enter':
-            this.insertLetter('\r\n');
+            this.insertLetter('\n');
             break;
           case 'Space':
             this.insertLetter(' ');
@@ -1099,4 +1098,4 @@ _js_keyboard__WEBPACK_IMPORTED_MODULE_3__["default"].runShortcut();
 
 /******/ })()
 ;
-//# sourceMappingURL=index.212141eb59d42e2e6f2f.js.map
+//# sourceMappingURL=index.6740982a16cf22589751.js.map
