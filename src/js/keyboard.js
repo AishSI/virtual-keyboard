@@ -1,7 +1,6 @@
 import KEYS from './keys';
 
 const BODY = document.body;
-// const textTextarea = '';
 
 const KEYBOARD = {
   keyCode: [],
@@ -85,6 +84,27 @@ const KEYBOARD = {
     });
   },
 
+  updateKeysKeyboard() {
+    this.layoutKeys = parseInt((`${Number(this.language)}${Number(this.caps)}${Number(this.shiftLeftActive || this.shiftRightActive)}`), 2);
+    const keys = KEYS[this.layoutKeys];
+    const keysUpdate = document.querySelectorAll('.keyboard__key');
+    const keysUpdateIndex = [...KEYS[9]];
+
+    keysUpdateIndex.forEach((item) => {
+      keysUpdate[item].innerHTML = '';
+      keysUpdate[item].innerHTML = `${keys[item]}`;
+    });
+
+    if (this.caps) keysUpdate[29].classList.add('active');
+    if (!this.caps) keysUpdate[29].classList.remove('active');
+
+    if (this.shiftLeftActive) keysUpdate[42].classList.add('active');
+    if (!this.shiftLeftActive) keysUpdate[42].classList.remove('active');
+
+    if (this.shiftRightActive) keysUpdate[54].classList.add('active');
+    if (!this.shiftRightActive) keysUpdate[54].classList.remove('active');
+  },
+
   mouseKeyboard() {
     // Отслеживаем Shift на мышке
     this.keyboard.addEventListener('mousedown', (event) => {
@@ -98,18 +118,18 @@ const KEYBOARD = {
         this.caps = !this.caps;
       }
       if (event.target.innerText === 'CapsLock' || event.target.innerText === 'Shift') {
-        KEYBOARD.fillKeysKeyboard();
+        this.updateKeysKeyboard();
       }
     });
 
     this.keyboard.addEventListener('mouseup', (event) => {
       if (event.target.classList.contains('ShiftLeft')) {
         this.shiftLeftActive = false;
-        KEYBOARD.fillKeysKeyboard();
+        this.updateKeysKeyboard();
       }
       if (event.target.classList.contains('ShiftRight')) {
         this.shiftRightActive = false;
-        KEYBOARD.fillKeysKeyboard();
+        this.updateKeysKeyboard();
       }
     });
   },
@@ -120,7 +140,7 @@ const KEYBOARD = {
       if (this.keyCode.includes(event.code)) {
         if (event.code === 'CapsLock') {
           this.caps = !this.caps;
-          KEYBOARD.fillKeysKeyboard();
+          this.updateKeysKeyboard();
         } else if (event.key === 'Shift') {
           if (event.code === 'ShiftLeft') {
             this.shiftLeftActive = true;
@@ -128,7 +148,7 @@ const KEYBOARD = {
           if (event.code === 'ShiftRight') {
             this.shiftRightActive = true;
           }
-          KEYBOARD.fillKeysKeyboard();
+          this.updateKeysKeyboard();
         } else {
           document.querySelector(`.${event.code}`).classList.add('active');
         }
@@ -141,7 +161,7 @@ const KEYBOARD = {
         if (event.key === 'Shift') {
           this.shiftLeftActive = false;
           this.shiftRightActive = false;
-          KEYBOARD.fillKeysKeyboard();
+          this.updateKeysKeyboard();
         }
         if (event.code !== 'CapsLock') {
           document.querySelector(`.${event.code}`).classList.remove('active');
@@ -160,7 +180,7 @@ const KEYBOARD = {
       if (combination.every((key) => pressed.has(key))) {
         pressed.clear();
         this.language = !this.language;
-        this.fillKeysKeyboard();
+        this.updateKeysKeyboard();
       }
     });
 
