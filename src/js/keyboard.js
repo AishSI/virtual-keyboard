@@ -65,7 +65,7 @@ const KEYBOARD = {
           key.innerHTML = 'Ctrl';
           break;
         case 56:
-          key.innerHTML = 'Win';
+          key.innerHTML = '&#127760;';
           break;
         case 59:
           key.innerHTML = 'Alt';
@@ -166,13 +166,17 @@ const KEYBOARD = {
             this.delSelection('Backspace');
             break;
           case 'Tab':
-            this.insertLetter('    ');
+            this.insertLetter('\t');
             break;
           case 'Delete':
             this.delSelection('Delete');
             break;
           case 'Enter':
             this.insertLetter('\n');
+            break;
+          case 'Lang':
+            this.language = !this.language;
+            this.updateKeysKeyboard();
             break;
           case 'Space':
             this.insertLetter(' ');
@@ -222,7 +226,7 @@ const KEYBOARD = {
             this.delSelection('Backspace');
             break;
           case 'Tab':
-            this.insertLetter('    ');
+            this.insertLetter('\t');
             break;
           case 'Delete':
             this.delSelection('Delete');
