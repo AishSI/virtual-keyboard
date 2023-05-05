@@ -1,0 +1,123 @@
+.title {
+  color: $color-primary;
+  text-align: center;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 20rem;
+  padding: 1rem;
+  margin: 2rem auto;
+  background-color: $color-dark;
+  color: $color-textarea;
+  border: 1px solid $color-dark-3xl;
+  outline: 2px solid $color-dark-3xl;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 10px $color-primary-light;
+  font-family: monospace, "Roboto Mono";
+  font-size: 2rem;
+  font-weight: 600;
+
+  &:focus-visible {
+    border: 1px solid $color-textarea;
+    outline: 2px solid $color-dark-3xl;
+  }
+}
+
+.description {
+  padding: 0.5rem;
+  text-align: right;
+  color: $color-primary-light;
+}
+
+.keyboard {
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  border: 3px solid $color-dark-3xl;
+  border-radius: 1rem;
+  justify-content: space-around;
+}
+
+.keyboard__key {
+  text-align: center;
+  line-height: $key-size;
+  background-color: $color-primary-light;
+  box-shadow: 2px 2px 3px $color-dark-l;
+  border-radius: 0.5rem;
+  font-family: Arial, "Roboto Mono", Helvetica, sans-serif;
+  cursor: pointer;
+  transition: color 0.3s, text-shadow 0.3s, box-shadow 0.3s;
+
+  @media (hover: hover) {
+    &:hover {
+      box-shadow: 2px 2px 3px $color-light-l;
+    }
+  }
+
+  &:active {
+    color: $color-light-l;
+    text-shadow: 0px 0px 1px $color-dark, 0 0 1px $color-warning;
+    box-shadow: -2px -2px 3px #545454;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.active {
+  color: $color-light-l;
+  text-shadow: 0px 0px 1px $color-dark, 0 0 1px $color-warning;
+  box-shadow: -2px -2px 3px #545454;
+  
+  &:hover{    
+    box-shadow: -2px -2px 3px #545454;
+  }
+}
+
+.grid-container {
+  margin: 2rem auto;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(16, 4rem);
+  grid-template-rows: repeat(5, 4rem);
+  grid-template-areas:
+    "key0 key1 key2 key3 key4 key5 key6 key7 key8 key9 key10 key11 key12 key13 key13 key13"
+    "key15 key15 key16 key17 key18 key19 key20 key21 key22 key23 key24 key25 key26 key27 key28 key29"
+    "key30 key30 key31 key32 key33 key34 key35 key36 key37 key38 key39 key40 key41 key42 key42 key42"
+    "key43 key43 key43 key44 key45 key46 key47 key48 key49 key50 key51 key52 key53 key54 key55 key55"
+    "key56 key57 key58 key59 key59 key59 key59 key59 key59 key59 key59 key60 key61 key62 key63 key64";
+  background-color: $color-dark-m;
+  box-shadow: 0px 0px 10px $color-primary-light;
+}
+
+.keyboard__key {
+  &:nth-child(14) {
+    grid-area: key13;
+  }
+
+  &:nth-child(15) {
+    grid-area: key15;
+  }
+
+  &:nth-child(30) {
+    grid-area: key30;
+  }
+
+  &:nth-child(42) {
+    grid-area: key42;
+  }
+
+  &:nth-child(43) {
+    grid-area: key43;
+  }
+
+  &:nth-child(55) {
+    grid-area: key55;
+  }
+
+  &:nth-child(59) {
+    grid-area: key59;
+  }
+}
